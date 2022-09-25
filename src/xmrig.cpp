@@ -20,18 +20,31 @@
 #include "base/kernel/Entry.h"
 #include "base/kernel/Process.h"
 
+using namespace xmrig;
+static App *app;
 
-int main(int argc, char **argv)
+extern "C" int xmrig_start(int argc, char **argv)
 {
-    using namespace xmrig;
-
     Process process(argc, argv);
     const Entry::Id entry = Entry::get(process);
-    if (entry) {
+    if (entry)
+    {
         return Entry::exec(process, entry);
     }
 
-    App app(&process);
+    // App app(&process);
+    app = new App(&process);
 
-    return app.exec();
+    app->exec();
+    return 0;
+}
+
+extern "C" int xmrig_stop()
+{
+
+    if (app == nullptr)
+        return 0;
+
+    app->close();
+    return 0;
 }

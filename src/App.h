@@ -54,6 +54,7 @@ public:
     ~App() override;
 
     int exec();
+    void close();
 
 protected:
     void onConsoleCommand(char command) override;
@@ -61,7 +62,6 @@ protected:
 
 private:
     bool background(int &rc);
-    void close();
 
     std::shared_ptr<Console> m_console;
     std::shared_ptr<Controller> m_controller;
